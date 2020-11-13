@@ -30,11 +30,18 @@ export function diff(dom, vnode, container) {
 function diffNode(dom, vnode) {
     // 从上到下，从左往右逐个处理每个dom节点（如果是修改的话）和vnode
     let out = dom;
-    if ( vnode === undefined || vnode === null || typeof vnode === 'boolean' ) vnode = '';
 
-    if ( typeof vnode === 'number' ) vnode = String( vnode );
+    // undefined/null/boolean的处理
+    if ( vnode === undefined || vnode === null || typeof vnode === 'boolean' ) {
+        vnode = '';
+    }
 
-    // diff text node
+    // 对比数字
+    if ( typeof vnode === 'number' ) {
+        vnode = String( vnode );
+    }
+
+    // 对比字符串
     if (typeof vnode === "string") {
         // 当前DOM节点是文本节点，直接更新内容
         // nodeType: https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeType
@@ -53,7 +60,7 @@ function diffNode(dom, vnode) {
         return out;
     }
 
-    // diff组件
+    // 对比组件
     if (typeof vnode.tag === 'function') {
         return diffComponent(dom, vnode);
     }
@@ -80,6 +87,7 @@ function diffNode(dom, vnode) {
         diffChildren( out, vnode.children );
     }
 
+    // 对比属性
     diffAttributes( out, vnode );
 
     return out;

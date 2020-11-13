@@ -172,6 +172,10 @@ var _diff = require("./diff");
 
 var _dom = require("./dom");
 
+/* 
+    渲染函数
+    _render
+*/
 function _render(vnode) {
   if (vnode === undefined || vnode === null || typeof vnode === 'boolean') {
     vnode = '';
@@ -285,9 +289,17 @@ function diff(dom, vnode, container) {
 
 function diffNode(dom, vnode) {
   // 从上到下，从左往右逐个处理每个dom节点（如果是修改的话）和vnode
-  var out = dom;
-  if (vnode === undefined || vnode === null || typeof vnode === 'boolean') vnode = '';
-  if (typeof vnode === 'number') vnode = String(vnode); // diff text node
+  var out = dom; // undefined/null/boolean的处理
+
+  if (vnode === undefined || vnode === null || typeof vnode === 'boolean') {
+    vnode = '';
+  } // 对比数字
+
+
+  if (typeof vnode === 'number') {
+    vnode = String(vnode);
+  } // 对比字符串
+
 
   if (typeof vnode === "string") {
     // 当前DOM节点是文本节点，直接更新内容
@@ -307,7 +319,7 @@ function diffNode(dom, vnode) {
 
 
     return out;
-  } // diff组件
+  } // 对比组件
 
 
   if (typeof vnode.tag === 'function') {
@@ -334,7 +346,8 @@ function diffNode(dom, vnode) {
 
   if (vnode.children && vnode.children.length > 0 || out.childNodes && out.childNodes.length > 0) {
     diffChildren(out, vnode.children);
-  }
+  } // 对比属性
+
 
   diffAttributes(out, vnode);
   return out;
@@ -737,6 +750,13 @@ exports.default = void 0;
     attrs一个包含了所有属性的对象
     children所有子节点的对象
 */
+
+/**
+ * @example
+ * <h1> hello world </h1>
+ * 可以通过jsx被转化为
+ * createElement('h1', {id: 'greet'}, 'hello world')
+ */
 function createElement(tag, attrs) {
   attrs = attrs || {};
 

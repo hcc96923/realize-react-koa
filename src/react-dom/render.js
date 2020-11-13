@@ -1,5 +1,9 @@
 import { createComponent, setComponentProps } from './diff';
 import { setAttribute } from './dom';
+/* 
+    渲染函数
+    _render
+*/
 export function _render(vnode) {
     if (vnode === undefined || vnode === null || typeof vnode === 'boolean') { 
         vnode = '';
