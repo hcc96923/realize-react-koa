@@ -1,6 +1,9 @@
 {
     "presets": ["env"],
     "plugins": [
+        // jsx可以通过babel插件提供的pargram的值React.createElement（这个方法名可以自定义）方法将jsx转换为一个对象（虚拟DOM）
+        // transform-react-jsx就是将jsx转换成js的babel插件，它有一个pragma选项
+        // 区分组件和原生DOM的工作，是babel-plugin-transform-react-jsx帮我们做的
         ["transform-react-jsx", {
             "pragma": "React.createElement"
         }]
